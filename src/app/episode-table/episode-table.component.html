@@ -1,8 +1,9 @@
 <div class="container">
-    <table class="table table-striped">
-        <thead>
+    <table class="table table-hover text-center">
+        <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
+                <th></th>
                 <th scope="col">Series Name</th>
                 <th scope="col">Episode No.</th>
                 <th scope="col">Episode Name</th>
@@ -10,8 +11,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let row of episodes; let i = index">
+            <tr *ngFor="let row of episodes; let i = index" [ngClass]="{'table-success' : row['Original Air Date'] && row['Original Air Date'] < currentDate}">
                 <td>{{i + 1}}</td>
+                <td>
+                    <div *ngIf="row['Series Name'] == 'The Flash'">
+                        <img src="../../assets/logos/the-flash-logo-edit.png" height="30px">
+                    </div>
+                    <div *ngIf="row['Series Name'] == 'Arrow'">
+                        <img src="../../assets/logos/arrow-logo-edit.png" height="30px">
+                    </div>
+                    <div *ngIf="row['Series Name'] == 'Supergirl'">
+                        <img src="../../assets/logos/supergirl-logo-edit.png" height="30px">
+                    </div>
+                    <div *ngIf="row['Series Name'] == 'Legends of Tomorrow'">
+                        <img src="../../assets/logos/legends-of-tomorrow-logo.png" height="30px">
+                    </div>
+                </td>
                 <td>{{row['Series Name']}}</td>
                 <td>{{row['Episode No.']}}</td>
                 <td>{{row['Episode Name']}}</td>

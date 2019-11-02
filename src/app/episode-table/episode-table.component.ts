@@ -11,6 +11,7 @@ export class EpisodeTableComponent implements OnInit {
     private REST_URL = "http://34.69.234.16:3000/";
 
     episodes = [];
+    currentDate = (new Date()).toISOString().split('T')[0];
 
     constructor(private httpClient: HttpClient) { }
 
@@ -21,7 +22,7 @@ export class EpisodeTableComponent implements OnInit {
     ngOnInit() {
         this.getEpisodeList().subscribe((data: any[]) => {
             this.episodes = data;
-            console.log(data);
+            // console.log(data);
         });
     }
 
