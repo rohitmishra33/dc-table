@@ -13,6 +13,7 @@ export class EpisodeTableComponent implements OnInit {
 
     episodes = [];
     currentDate = moment().format('YYYY-MM-DD');
+    isLoaded = false;
 
     constructor(private httpClient: HttpClient) { }
 
@@ -32,6 +33,8 @@ export class EpisodeTableComponent implements OnInit {
                 }
             });
             this.episodes = data;
+            this.isLoaded = true;
+
             // console.log(this.episodes);
         });
     }
