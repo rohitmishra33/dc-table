@@ -24,7 +24,8 @@ export class EpisodeTableComponent implements OnInit {
     }
 
     public createCookie(index: any) {
-        this.cookieService.set('last-watched-episode', index, new Date('2093-04-15'), 'localhost', 'localhost', false, 'Strict');
+        this.cookieService.set('last-watched-episode', index, new Date('2093-04-15'),
+            window.location.hostname, window.location.hostname, false, 'Strict');
         this.cookie = parseInt(this.cookieService.get('last-watched-episode'), 10);
         this.setWatchedFlag();
     }
@@ -42,7 +43,7 @@ export class EpisodeTableComponent implements OnInit {
             }
         });
         this.cookieService.set('last-watched-episode', latestEpisodeWatched.toString(), new Date('2093-04-15'),
-            'localhost', 'localhost', false, 'Strict');
+            window.location.hostname, window.location.hostname, false, 'Strict');
         this.cookie = parseInt(this.cookieService.get('last-watched-episode'), 10);
     }
 
