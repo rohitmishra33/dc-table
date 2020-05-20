@@ -5,11 +5,13 @@ import { AppComponent } from './app.component';
 import { EpisodeTableComponent } from './episode-table/episode-table.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EpisodeTableComponent
+    EpisodeTableComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
