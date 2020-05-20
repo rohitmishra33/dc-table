@@ -3,12 +3,12 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">Original Air Date</th>
                 <!-- Dummy header to accomodate the series logo -->
                 <th></th>
                 <th scope="col">Series Name</th>
-                <th scope="col">Episode No.</th>
                 <th scope="col">Episode Name</th>
-                <th scope="col">Original Air Date</th>
+                <th scope="col">Episode No.</th>
                 <th scope="col">Watched</th>
             </tr>
         </thead>
@@ -16,7 +16,8 @@
             <tr *ngFor="let row of episodes; let i = index"
                 [ngClass]="{'table-success' : row['Original Air Date'] && row['Original Air Date'] < currentDate}"
                 (click)="createCookie(i)">
-                <td>{{i + 1}}</td>
+                <td style="font-weight:bold;">{{i + 1}}</td>
+                <td style="font-weight:bold; font-style: italic;">{{row['Formatted Date']}}</td>
                 <td>
                     <div *ngIf="row['Series Name'] == 'The Flash'">
                         <img src="../../assets/logos/the-flash-logo-edit.png" height="30px">
@@ -31,10 +32,9 @@
                         <img src="../../assets/logos/legends-of-tomorrow-logo.png" height="30px">
                     </div>
                 </td>
-                <td>{{row['Series Name']}}</td>
-                <td>{{row['Episode No.']}}</td>
-                <td>{{row['Episode Name']}}</td>
-                <td>{{row['Formatted Date']}}</td>
+                <td style="font-weight:bold; font-style: italic;">{{row['Series Name']}}</td>
+                <td style="font-weight:bold; font-style: italic;">{{row['Episode Name']}}</td>
+                <td style="font-weight:bold">S{{row['Season']}} E{{row['Episode No.']}}</td>
                 <td>
                     <div *ngIf="row['Watched']">
                         <img src="../../assets/tick.png" height="30px">
