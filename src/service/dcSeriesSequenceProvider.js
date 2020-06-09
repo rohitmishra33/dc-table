@@ -6,6 +6,7 @@ let arrowUrl = 'https://en.wikipedia.org/wiki/Arrow_(season_8)';
 let theFlashUrl = 'https://en.wikipedia.org/wiki/The_Flash_(season_6)';
 let supergirlUrl = 'https://en.wikipedia.org/wiki/Supergirl_(season_5)';
 let legendsOfTomorrowUrl = 'https://en.wikipedia.org/wiki/Legends_of_Tomorrow_(season_5)';
+let agentsOfShieldUrl = 'https://en.wikipedia.org/wiki/Agents_of_S.H.I.E.L.D._(season_7)';
 
 function getListOfEpisodes(seriesName, seriesUrl) {
     let episodes = [];
@@ -25,18 +26,26 @@ function getListOfEpisodes(seriesName, seriesUrl) {
                     counter++;
                     if (counter === 1) {
                         episode['Episode No.'] = node.rawText;
+                        // console.log('1 - ' + node.rawText);
                     } else if (counter === 2) {
                         episode['Episode Name'] = node.rawText.substring(node.rawText.indexOf('"') + 1, node.rawText.lastIndexOf('"'));
+                        // console.log('2 - ' + node.rawText);
                     } else if (counter === 5) {
                         let date = node.rawText;
                         episode['Original Air Date'] = date.substring(date.indexOf('(') + 1, date.lastIndexOf(')'));
-                    } else if (counter === 7) {
+                        if (episode['Original Air Date'].length < 10) {
+                            episode['Original Air Date'] = '';
+                        }
+                        // console.log('5 - ' + node.rawText);
+                    } else if ((seriesName === 'Agents of S.H.I.E.L.D.' && counter === 6) || counter === 7) {
                         episodes.push(episode);
                         counter = 0;
                         episode = {
                             'Series Name': seriesName,
                             'Season': season
                         };
+                        // console.log('7 - ' + node.rawText);
+                        // console.log('\n');
                     }
                 });
                 resolve(episodes);
@@ -49,8 +58,9 @@ let getEpisodes = async function getEpisodesInChronologicalOrder() {
     theFlashResult = getListOfEpisodes('The Flash', theFlashUrl);
     supergirlResult = getListOfEpisodes('Supergirl', supergirlUrl);
     legendsOfTomorrowResult = getListOfEpisodes('Legends of Tomorrow', legendsOfTomorrowUrl);
+    agentsOfShieldResult = getListOfEpisodes('Agents of S.H.I.E.L.D.', agentsOfShieldUrl);
 
-    return Promise.all([arrowResult, theFlashResult, supergirlResult, legendsOfTomorrowResult]).then(function (values) {
+    return Promise.all([arrowResult, theFlashResult, supergirlResult, legendsOfTomorrowResult, agentsOfShieldResult]).then(function (values) {
         let episodes = lodash.flatten(values);
         episodes.sort(function (obj1, obj2) {
 
@@ -58,9 +68,9 @@ let getEpisodes = async function getEpisodesInChronologicalOrder() {
 
             // Hacky logic to push episodes with no defined date to the end of the list.
             // Needs to be improved.
-            if (obj1['Original Air Date'] === "" || obj1['Original Air Date'] === null)
+            if (obj1['Original Air Date'] === "" || obj1['Original Air Date'] === null || obj1['Original Air Date'].length < 10)
                 compareVal = 1;
-            if (obj2['Original Air Date'] === "" || obj2['Original Air Date'] === null)
+            if (obj2['Original Air Date'] === "" || obj2['Original Air Date'] === null || obj2['Original Air Date'].length < 10)
                 compareVal = -1;
             if (obj1['Original Air Date'] === obj2['Original Air Date'])
                 compareVal = 0;
@@ -106,7 +116,7 @@ async function printEpisodeList() {
     // console.table(episodeList.filter(e => e['Original Air Date'] !== ''));
 }
 
-// Uncomment to run locally
+// Uncomment to run locally (useful for debugging)
 // printEpisodeList();
 
 module.exports.getEpisodesInChronologicalOrder = getEpisodes;
